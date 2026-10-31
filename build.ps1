@@ -39,7 +39,7 @@ try {
         & $DotnetExe publish src/Fotonizer.App/Fotonizer.App.csproj -c Release -r win-x64 --self-contained true -o $out
         if ($LASTEXITCODE -ne 0) { throw "publish failed" }
 
-        Copy-Item README.md, LICENSE, THIRD-PARTY-NOTICES.md $out -Force
+        Copy-Item README.md, README.en.md, LICENSE, THIRD-PARTY-NOTICES.md $out -Force
         Copy-Item docs (Join-Path $out "docs") -Recurse -Force
         $zip = Join-Path $root "publish/Fotonizer-win-x64.zip"
         Remove-Item $zip -Force -ErrorAction SilentlyContinue

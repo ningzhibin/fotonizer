@@ -1,5 +1,11 @@
 # Fotonizer · 自动照片整理
 
+[![GitHub release](https://img.shields.io/github/v/release/ningzhibin/fotonizer?color=2ea44f)](https://github.com/ningzhibin/fotonizer/releases/latest)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Platform](https://img.shields.io/badge/platform-Windows%2010%2F11%20x64-0078D4.svg)](#快速开始)
+
+[English](README.en.md) | 中文
+
 一个常驻 Windows 托盘的照片管家：插上 U 盘、存储卡或相机后自动导入，按拍摄时间重命名归档、去重、挑选连拍中最好的一张、自动增强，并备份到 Google 照片。
 
 界面使用 WPF（.NET 8），照片处理全部在本机完成，不上传原图到除 Google 照片以外的任何地方。
@@ -31,7 +37,7 @@
 - **连拍优选**：同一秒内连拍多张时，按清晰度、曝光、人脸数量和脸部清晰度自动挑选最好的一张，其余跳过或保留到 `_Burst` 子目录。
 - **自动增强**：本地实现自动色阶、灰世界白平衡、中间调 Gamma、饱和度与锐化，风格接近手机相册的“自动增强”。
 - **Google 照片备份**：通过官方 Photos Library API 上传，按月份自动创建相册；令牌用 Windows DPAPI 加密保存。
-- **简单 GUI**：所有配置都有中文界面，修改自动保存；支持开机自启、托盘菜单、通知和日志查看。
+- **简单 GUI**：所有配置都有中文 / English 界面，修改自动保存；支持开机自启、托盘菜单、通知和日志查看。
 - **可暂停**：随时暂停/恢复监控；手动“立即导入”任意文件夹。
 - **CLI**：`fotonizer-cli` 可在无界面环境下执行同一套导入流水线，方便自动化和排查。
 
@@ -39,10 +45,11 @@
 
 ### 方式 A：使用打包好的程序（推荐）
 
-1. 解压 `publish/Fotonizer-win-x64.zip`（或直接使用 `publish/Fotonizer-win-x64/` 文件夹）。
-2. 双击 `Fotonizer.exe`。
-3. 首次启动会显示欢迎页：选择照片库目录，点击“开始使用”。
-4. 之后插入 U 盘 / 存储卡，或连接相机即可。程序会缩到系统托盘继续工作。
+1. 从 [GitHub Releases](https://github.com/ningzhibin/fotonizer/releases/latest) 下载 `Fotonizer-win-x64-1.0.5.zip`。
+2. 解压到任意目录（不要直接在压缩包里运行）。
+3. 双击 `Fotonizer.exe`。
+4. 首次启动会显示欢迎页：选择照片库目录，点击“开始使用”。
+5. 之后插入 U 盘 / 存储卡，或连接相机即可。程序会缩到系统托盘继续工作。
 
 程序是 **self-contained** 发布，目标机器不需要预装 .NET。要求 Windows 10 2004（19041）或更高版本、x64。
 
