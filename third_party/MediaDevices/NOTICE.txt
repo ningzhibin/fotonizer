@@ -1,0 +1,1 @@
+﻿MediaDevices 1.10.2 - MIT License - https://github.com/Bassman2/MediaDevices

@@ -1,0 +1,90 @@
+<Window x:Class="Fotonizer.App.GoogleSetupWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="连接 Google 照片" Height="640" Width="680"
+        WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
+        Icon="Assets/fotonizer.ico"
+        ShowInTaskbar="False">
+    <Grid Margin="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="30,26,30,10">
+            <StackPanel>
+                <TextBlock Text="连接 Google 照片" Style="{StaticResource PageTitle}" />
+                <TextBlock Style="{StaticResource PageSubtitle}"
+                           Text="Fotonizer 使用 Google Photos Library API 上传照片。只需一次性创建 OAuth 客户端，把 ID 和密钥粘贴到设置里即可。" />
+
+                <Border Style="{StaticResource Card}">
+                    <StackPanel>
+                        <TextBlock Text="1. 创建 Google Cloud 项目" FontWeight="SemiBold" Margin="0,0,0,6" />
+                        <TextBlock TextWrapping="Wrap" FontSize="12.5">
+                            打开 Google Cloud Console，创建一个新项目（例如 “Fotonizer”）。
+                        </TextBlock>
+                        <Button Content="打开 Google Cloud Console" Style="{StaticResource LinkButton}"
+                                HorizontalAlignment="Left" Margin="0,8,0,0" Click="OpenConsole_Click" />
+                    </StackPanel>
+                </Border>
+
+                <Border Style="{StaticResource Card}">
+                    <StackPanel>
+                        <TextBlock Text="2. 启用 Photos Library API" FontWeight="SemiBold" Margin="0,0,0,6" />
+                        <TextBlock TextWrapping="Wrap" FontSize="12.5">
+                            在“API 和服务 → 库”中搜索 “Photos Library API”，然后点击“启用”。
+                        </TextBlock>
+                    </StackPanel>
+                </Border>
+
+                <Border Style="{StaticResource Card}">
+                    <StackPanel>
+                        <TextBlock Text="3. 配置 OAuth 同意屏幕" FontWeight="SemiBold" Margin="0,0,0,6" />
+                        <TextBlock TextWrapping="Wrap" FontSize="12.5">
+                            API 和服务 → OAuth 同意屏幕：选择“外部”，填写应用名称和邮箱；在“测试用户”中加入你自己的 Google 账号。个人使用不需要发布应用。
+                        </TextBlock>
+                    </StackPanel>
+                </Border>
+
+                <Border Style="{StaticResource Card}">
+                    <StackPanel>
+                        <TextBlock Text="4. 创建 OAuth 客户端 ID" FontWeight="SemiBold" Margin="0,0,0,6" />
+                        <TextBlock TextWrapping="Wrap" FontSize="12.5">
+                            凭据 → 创建凭据 → OAuth 客户端 ID → 应用类型选择“桌面应用”。创建后会显示客户端 ID 和客户端密钥，把两者填入 Fotonizer 的 Google 照片页面。
+                        </TextBlock>
+                        <TextBlock TextWrapping="Wrap" FontSize="12.5" Margin="0,8,0,0"
+                                   Foreground="#6B7280">
+                            回调地址无需手动填写：程序会在本机随机端口启动一个一次性回调监听（http://127.0.0.1:端口）。
+                        </TextBlock>
+                    </StackPanel>
+                </Border>
+
+                <Border Style="{StaticResource Card}" Background="#FFF9EC" BorderBrush="#F3DFB6">
+                    <StackPanel>
+                        <TextBlock Text="权限与隐私" FontWeight="SemiBold" Margin="0,0,0,6" />
+                        <TextBlock TextWrapping="Wrap" FontSize="12.5" Foreground="#6B5322"
+                                   Text="只申请 photoslibrary.appendonly：Fotonizer 只能上传照片、创建相册，并查看自己上传的内容，无法读取你已有的 Google 照片。刷新令牌使用 Windows DPAPI 加密保存在本机。" />
+                    </StackPanel>
+                </Border>
+
+                <Border Style="{StaticResource Card}" Background="#F2F7FF" BorderBrush="#D6E4FF">
+                    <StackPanel>
+                        <TextBlock Text="关于 Google Photos API 的现状" FontWeight="SemiBold" Margin="0,0,0,6" />
+                        <TextBlock TextWrapping="Wrap" FontSize="12.5" Foreground="#294B87"
+                                   Text="自 2025 年起，Photos Library API 仅允许应用访问自己创建的内容，因此 Fotonizer 无法浏览或去重你 Google 照片里已有的照片。上传功能不受影响。" />
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+
+        <Border Grid.Row="1" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,1,0,0"
+                Background="#FBFCFE" Padding="30,14">
+            <DockPanel>
+                <Button Content="关闭" Style="{StaticResource SecondaryButton}" DockPanel.Dock="Right"
+                        Click="Close_Click" />
+                <TextBlock Text="创建完成后，回到“Google 照片”页面粘贴并点击连接。"
+                           Foreground="{StaticResource MutedBrush}" VerticalAlignment="Center" />
+            </DockPanel>
+        </Border>
+    </Grid>
+</Window>

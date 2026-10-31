@@ -1,0 +1,11 @@
+bin/
+obj/
+.vs/
+.nuget/
+publish/
+*.user
+*.suo
+TestResults/
+artifacts/
+sample-data/
+docs/_build/

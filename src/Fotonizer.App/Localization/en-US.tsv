@@ -1,0 +1,153 @@
+Fotonizer · 自动照片整理	Fotonizer · Automatic Photo Organizer
+自动照片整理	Automatic Photo Organizer
+照片只在本机处理	Photos are processed locally
+总览	Overview
+导入来源	Import Sources
+整理与命名	Organize & Rename
+自动增强	Auto Enhance
+连拍优选	Burst Select
+Google 照片	Google Photos
+常规设置	General Settings
+运行日志	Activity Log
+插上设备就自动整理照片：复制、重命名、挑选连拍最佳张、增强并上传。	Plug in a device and your photos are organized automatically: copy, rename, pick the best burst shot, enhance, and upload.
+立即导入文件夹	Import Folder Now
+打开照片库	Open Library
+照片库文件	Library files
+等待上传	Pending upload
+已上传 Google	Uploaded to Google
+照片库占用	Library size
+照片库	Photo library
+打开文件夹	Open folder
+修改位置	Change location
+管理上传设置	Manage upload settings
+最近活动	Recent activity
+Fotonizer 常驻后台监听设备。插入 U 盘、存储卡或连接相机/手机后会自动开始导入。	Fotonizer runs in the background and watches for devices. Import starts automatically when you plug in a USB drive or memory card, or connect a camera/phone.
+自动检测	Auto-detect
+U 盘 / SD 卡等可移动磁盘	Removable drives such as USB drives / SD cards
+相机、手机（MTP / PTP，需要设备解锁）	Cameras and phones (MTP / PTP; unlock the device)
+外接固定硬盘（不含系统盘）	External hard drives (excluding the system drive)
+检测到设备后自动导入	Import automatically when a device is detected
+启动时扫描已连接的设备	Scan connected devices at startup
+提示：Windows 首次连接相机时可能需要几秒钟安装驱动；手机需要在屏幕上允许访问照片。	Tip: Windows may take a few seconds to install drivers the first time a camera is connected; phones need permission to access photos on screen.
+附加文件夹	Extra folders
+除了设备，还可以监控电脑上的固定文件夹（例如下载目录、网络共享）。	In addition to devices, you can watch fixed folders on this PC (for example Downloads or a network share).
+添加文件夹…	Add folder…
+移除选中	Remove selected
+定期重新扫描（分钟，0 = 不扫描）	Rescan interval (minutes, 0 = never)
+扫描范围	Scan scope
+包含子文件夹	Include subfolders
+同时导入视频（MP4 / MOV 等）	Import videos too (MP4 / MOV, etc.)
+最大扫描深度	Maximum scan depth
+设备轮询间隔（秒）	Device polling interval (seconds)
+默认会跳过隐藏目录、系统目录、回收站和照片库自身，避免重复导入。	Hidden folders, system folders, the Recycle Bin, and the library itself are skipped by default to avoid duplicate imports.
+照片会按拍摄时间自动命名和归档。模板支持日期、相机型号、原文件名和序号。	Photos are named and filed by capture time. Templates support dates, camera model, original filename, and sequence numbers.
+照片库位置	Library location
+浏览…	Browse…
+建议使用独立磁盘或 OneDrive 之外的本地目录；Google 照片上传是额外备份。	Use a local folder on a separate drive or outside OneDrive; Google Photos upload is an additional backup.
+设备目录	Device folders
+按相机/设备建立独立根目录	Create a separate root folder for each camera/device
+勾选后，新导入的照片会放在以“厂商 + 型号”命名的目录下，例如 Sony ILCE-7M3\2026\10\...、Nikon Z 6\2026\10\...。没有 EXIF 相机信息的照片或视频会进入“未识别相机”。只影响之后导入的照片。	When enabled, new photos are placed in a folder named after the camera make + model, for example Sony ILCE-7M3\2026\10\... or Nikon Z 6\2026\10\.... Photos or videos without EXIF camera information go to "Unknown camera". Only affects photos imported afterwards.
+文件命名模板	File name template
+按日期时间	Date & time
+日期 + 相机	Date + camera
+保留原文件名	Keep original name
+可用标记：{yyyy} {MM} {dd} {HH} {mm} {ss} {fff} {date:格式} {time:格式} {camera} {original} {counter:000} {ext}	Available tokens: {yyyy} {MM} {dd} {HH} {mm} {ss} {fff} {date:format} {time:format} {camera} {original} {counter:000} {ext}
+子文件夹模板	Subfolder template
+例如：{yyyy}\{MM} 或 {yyyy}\{MM}\{dd}；留空表示全部放在照片库根目录。	Example: {yyyy}\{MM} or {yyyy}\{MM}\{dd}; leave empty to place everything in the library root.
+来源处理	Source handling
+导入成功后删除来源文件（危险，默认关闭）	Delete source files after a successful import (dangerous, off by default)
+仅对磁盘/文件夹生效，不会删除相机或手机里的文件。建议先确认照片已正确导入再开启。	Only applies to drives/folders, never to files on a camera or phone. Make sure the photos were imported correctly before enabling this.
+本地自动调整曝光、白平衡、对比度和锐度，风格接近手机相册的“自动增强”。	Automatically adjusts exposure, white balance, contrast, and sharpness locally, similar to the "Auto enhance" feature in phone galleries.
+增强强度	Enhancement strength
+关闭（只复制原图）	Off (copy originals only)
+轻微增强（推荐）	Light enhancement (recommended)
+较强增强	Strong enhancement
+轻微增强会保留原有氛围；较强增强会拉回暗部、提升饱和度与清晰度。	Light enhancement preserves the original mood; strong enhancement lifts shadows and boosts saturation and clarity.
+JPEG 质量	JPEG quality
+增强后的照片会重新编码为 JPEG。原图不会被覆盖，除非你手动删除。	Enhanced photos are re-encoded as JPEG. Originals are not overwritten unless you delete them manually.
+关于 Windows 照片的自动增强	About Windows Photos auto enhance
+Windows“照片”应用的自动增强没有公开的命令行或自动化接口，无法可靠地批量调用。Fotonizer 因此内置了自己的增强算法，完全在本机运行；如果你有 Lightroom、DxO 等支持命令行的工具，也可以在后续版本中接入外部命令。	Windows Photos has no public command-line or automation interface for Auto Enhance, so it cannot be invoked reliably in batches. Fotonizer includes its own enhancement algorithm that runs entirely on your PC. If you use a command-line-capable tool such as Lightroom or DxO, external commands can be integrated in a future version.
+同一秒内连拍多张时，自动比较清晰度、曝光和人脸，只保留最好的一张。	When several burst photos are taken within the same second, Fotonizer compares sharpness, exposure, and faces, then keeps only the best one.
+启用连拍自动优选	Enable automatic burst selection
+连拍时间窗口（秒）	Burst time window (seconds)
+最少连拍张数	Minimum burst count
+只有达到最少张数的连续照片才会触发优选；普通单张照片不受影响。	Only consecutive photos that reach the minimum count trigger selection; ordinary single photos are unaffected.
+落选照片	Rejected photos
+直接跳过（推荐，节省空间）	Skip them (recommended, saves space)
+保留到 _Burst 子文件夹	Keep them in the _Burst subfolder
+落选照片不会被上传到 Google 照片。保留副本会占用额外空间。	Rejected photos are not uploaded to Google Photos. Keeping copies uses extra space.
+评分方式	Scoring
+50% 清晰度（拉普拉斯方差）+ 20% 曝光质量 + 30% 人脸（人脸数量、大小和脸部清晰度）。评分与选择结果会写入日志。	50% sharpness (Laplacian variance) + 20% exposure quality + 30% faces (face count, size, and sharpness). Scores and selections are written to the log.
+照片整理完成后自动上传到 Google 照片（原画质），并按月份创建相册。	After organizing, photos are uploaded to Google Photos at original quality and grouped into monthly albums.
+启用自动上传	Enable automatic upload
+同时上传视频	Upload videos too
+失败重试次数	Retry limit
+相册名模板	Album name template
+相册模板留空表示只上传到时间线；例如 {yyyy}-{MM} 会创建“2024-05”这样的相册。	Leave the album template empty to upload only to the timeline; for example, {yyyy}-{MM} creates albums such as "2024-05".
+连接状态	Connection status
+OAuth 客户端 ID	OAuth client ID
+OAuth 客户端密钥	OAuth client secret
+连接 Google 照片	Connect Google Photos
+断开连接	Disconnect
+重试失败的上传	Retry failed uploads
+如何获取这些信息？	How do I get these?
+隐私说明	Privacy
+Fotonizer 只申请 photoslibrary.appendonly 权限：只能上传和查看本程序创建的内容，不能读取你已有的 Google 照片。授权令牌使用 Windows DPAPI 加密保存在本机。	Fotonizer requests only the photoslibrary.appendonly scope: it can upload photos, create albums, and view content it created, but cannot read your existing Google Photos. Authorization tokens are encrypted locally with Windows DPAPI.
+启动方式、托盘行为和本地数据位置。	Startup, tray behavior, and local data location.
+启动与托盘	Startup & tray
+开机时自动启动（最小化到托盘）	Start with Windows (minimized to tray)
+关闭窗口时最小化到托盘，而不是退出	Minimize to tray on close instead of exiting
+显示设备连接与导入完成的通知	Show notifications for device connections and completed imports
+退出程序请使用托盘菜单中的“退出”，或在此关闭“最小化到托盘”后关闭窗口。	To exit, use "Exit" in the tray menu, or turn off "Minimize to tray" here and close the window.
+电源管理	Power management
+阻止系统进入休眠（保持导入/上传不中断）	Prevent system sleep (keep imports/uploads running)
+勾选后，只要 Fotonizer 正在运行，Windows 就不会因空闲进入睡眠；屏幕仍会按电源计划关闭。使用笔记本电池时会增加一些耗电，退出程序后立即恢复正常休眠策略。	When enabled, Windows will not sleep while Fotonizer is running; the screen can still turn off according to your power plan. Using battery power will consume more energy. Normal sleep behavior is restored as soon as the app exits.
+本地数据	Local data
+设置、照片索引数据库和日志都保存在这里；照片本身在照片库目录中。	Settings, the photo index database, and logs are stored here; the photos themselves are in the library folder.
+打开数据目录	Open data folder
+打开日志	Open log
+关于 Fotonizer	About Fotonizer
+一个本地优先的自动照片整理工具：设备监听、去重、连拍优选、自动增强和 Google 照片备份。所有照片处理都在你的电脑上完成。	A local-first automatic photo organizer: device monitoring, deduplication, burst selection, auto enhancement, and Google Photos backup. All photo processing happens on your PC.
+最近的设备检测、导入、连拍评分和上传记录。	Recent device detections, imports, burst scores, and uploads.
+打开日志文件	Open log file
+清空列表	Clear list
+最近 400 条记录	Latest 400 entries
+时间	Time
+级别	Level
+内容	Message
+设置会自动保存	Settings are saved automatically
+欢迎使用 Fotonizer	Welcome to Fotonizer
+一次设置，之后插上设备就自动整理照片。	Set it up once; after that, just plug in a device and your photos are organized automatically.
+选择照片库位置	Choose a photo library location
+所有整理后的照片都会复制到这里。原始设备上的照片不会被修改。	All organized photos are copied here. Photos on the original device are never modified.
+启动时扫描已连接的设备（推荐）	Scan connected devices at startup (recommended)
+它会为你做什么	What it does for you
+• 监听 U 盘、存储卡和相机/手机，连接后自动导入新照片	• Watches USB drives, memory cards, cameras, and phones, and imports new photos when connected
+• 按拍摄时间重命名，并按年/月归档	• Renames by capture time and files photos by year/month
+• 连拍时自动挑选最清晰、曝光最好的一张	• Picks the sharpest, best-exposed shot from bursts
+• 自动增强照片，并可上传到 Google 照片	• Enhances photos automatically and can upload them to Google Photos
+所有处理都在本机完成；相同的照片不会重复导入。你可以随时在“设置”里调整或暂停。	Everything runs locally; the same photo is never imported twice. You can adjust or pause it in Settings at any time.
+第一次连接设备时	The first time you connect a device
+Fotonizer 会把设备上所有尚未导入过的照片复制进照片库，因此第一次可能会花一些时间。之后只会处理新增照片。	Fotonizer copies every photo on the device that has not been imported before, so the first import may take a while. After that, only new photos are processed.
+开始使用	Get started
+稍后可以在“常规设置”中修改。	You can change this later in General Settings.
+Fotonizer 使用 Google Photos Library API 上传照片。只需一次性创建 OAuth 客户端，把 ID 和密钥粘贴到设置里即可。	Fotonizer uses the Google Photos Library API to upload photos. Create an OAuth client once, then paste the ID and secret into Settings.
+1. 创建 Google Cloud 项目	1. Create a Google Cloud project
+打开 Google Cloud Console	Open Google Cloud Console
+2. 启用 Photos Library API	2. Enable the Photos Library API
+3. 配置 OAuth 同意屏幕	3. Configure the OAuth consent screen
+4. 创建 OAuth 客户端 ID	4. Create an OAuth client ID
+权限与隐私	Permissions & privacy
+只申请 photoslibrary.appendonly：Fotonizer 只能上传照片、创建相册，并查看自己上传的内容，无法读取你已有的 Google 照片。刷新令牌使用 Windows DPAPI 加密保存在本机。	Requests only photoslibrary.appendonly: Fotonizer can upload photos, create albums, and view content it uploaded, but cannot read your existing Google Photos. Refresh tokens are encrypted locally with Windows DPAPI.
+关于 Google Photos API 的现状	About the current Google Photos API
+自 2025 年起，Photos Library API 仅允许应用访问自己创建的内容，因此 Fotonizer 无法浏览或去重你 Google 照片里已有的照片。上传功能不受影响。	Since 2025, the Photos Library API only allows apps to access content they created, so Fotonizer cannot browse or deduplicate photos already in your Google Photos. Uploads are unaffected.
+关闭	Close
+创建完成后，回到“Google 照片”页面粘贴并点击连接。	After creating the client, return to the Google Photos page, paste the values, and click Connect.
+打开 Google Cloud Console，创建一个新项目（例如 “Fotonizer”）。	Open the Google Cloud Console and create a new project (for example, "Fotonizer").
+在“API 和服务 → 库”中搜索 “Photos Library API”，然后点击“启用”。	In "APIs & Services → Library", search for "Photos Library API" and click Enable.
+API 和服务 → OAuth 同意屏幕：选择“外部”，填写应用名称和邮箱；在“测试用户”中加入你自己的 Google 账号。个人使用不需要发布应用。	APIs & Services → OAuth consent screen: choose "External", enter an app name and email, and add your own Google account under "Test users". You do not need to publish the app for personal use.
+凭据 → 创建凭据 → OAuth 客户端 ID → 应用类型选择“桌面应用”。创建后会显示客户端 ID 和客户端密钥，把两者填入 Fotonizer 的 Google 照片页面。	Credentials → Create credentials → OAuth client ID → Application type "Desktop app". The client ID and client secret will be shown; paste both into Fotonizer's Google Photos page.
+回调地址无需手动填写：程序会在本机随机端口启动一个一次性回调监听（http://127.0.0.1:端口）。	No redirect URI needs to be entered manually: the app starts a one-time loopback callback listener on a random local port (http://127.0.0.1:port).
+界面语言	Interface language
+切换后立即生效，设置会自动保存。	Changes apply immediately and are saved automatically.
+中文	Chinese

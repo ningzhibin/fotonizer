@@ -1,0 +1,653 @@
+<Window x:Class="Fotonizer.App.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:conv="clr-namespace:Fotonizer.App.Converters"
+        Title="Fotonizer · 自动照片整理"
+        Height="840" Width="1200" MinHeight="680" MinWidth="1000"
+        WindowStartupLocation="CenterScreen"
+        Icon="Assets/fotonizer.ico"
+        UseLayoutRounding="True"
+        SnapsToDevicePixels="True">
+
+    <Window.Resources>
+        <conv:LogLevelToBrushConverter x:Key="LogBrush" />
+    </Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="232" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- ================= sidebar ================= -->
+        <Border Background="White" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,1,0">
+            <DockPanel Margin="0,22,0,16">
+                <StackPanel DockPanel.Dock="Top" Margin="22,0,18,20">
+                    <StackPanel Orientation="Horizontal">
+                        <Border Width="40" Height="40" CornerRadius="11" Background="{StaticResource AccentBrush}">
+                            <Image Source="Assets/fotonizer.ico" Width="26" Height="26" />
+                        </Border>
+                        <StackPanel Margin="11,0,0,0" VerticalAlignment="Center">
+                            <TextBlock Text="Fotonizer" FontSize="18" FontWeight="Bold" />
+                            <TextBlock Text="自动照片整理" FontSize="11" Foreground="{StaticResource MutedBrush}" />
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel DockPanel.Dock="Bottom" Margin="20,0,20,0">
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+                        <Ellipse Width="8" Height="8" Fill="{StaticResource SuccessBrush}" Margin="0,0,7,0"
+                                 VerticalAlignment="Center" />
+                        <TextBlock Text="{Binding StatusHeadline}" FontSize="11.5"
+                                   Foreground="{StaticResource MutedBrush}" />
+                    </StackPanel>
+                    <TextBlock Text="{Binding VersionText}" FontSize="11" Foreground="#9AA3B2" />
+                    <TextBlock Text="照片只在本机处理" FontSize="11" Foreground="#9AA3B2" Margin="0,2,0,0" />
+                </StackPanel>
+
+                <ListBox x:Name="NavList" SelectedIndex="0" SelectionChanged="NavList_SelectionChanged"
+                         ItemContainerStyle="{StaticResource NavItem}">
+                    <ListBoxItem Content="总览" />
+                    <ListBoxItem Content="导入来源" />
+                    <ListBoxItem Content="整理与命名" />
+                    <ListBoxItem Content="自动增强" />
+                    <ListBoxItem Content="连拍优选" />
+                    <ListBoxItem Content="Google 照片" />
+                    <ListBoxItem Content="常规设置" />
+                    <ListBoxItem Content="运行日志" />
+                </ListBox>
+            </DockPanel>
+        </Border>
+
+        <!-- ================= main ================= -->
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <ScrollViewer x:Name="ContentScroll" VerticalScrollBarVisibility="Auto"
+                          HorizontalScrollBarVisibility="Disabled">
+                <Grid Margin="32,28,32,12" MaxWidth="920" HorizontalAlignment="Left">
+                    <StackPanel x:Name="HomePanel">
+                        <TextBlock Text="总览" Style="{StaticResource PageTitle}" />
+                        <TextBlock Style="{StaticResource PageSubtitle}"
+                                   Text="插上设备就自动整理照片：复制、重命名、挑选连拍最佳张、增强并上传。" />
+
+                        <Border CornerRadius="14" Padding="26" Margin="0,0,0,18">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#2F6FED" Offset="0" />
+                                    <GradientStop Color="#1B3F9E" Offset="1" />
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel>
+                                    <TextBlock Text="{Binding StatusHeadline}" Foreground="White"
+                                               FontSize="23" FontWeight="SemiBold" />
+                                    <TextBlock Text="{Binding StatusDetail}" Foreground="#DCE7FF"
+                                               TextWrapping="Wrap" FontSize="12.5" Margin="0,7,24,20"
+                                               MaxWidth="580" HorizontalAlignment="Left" />
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Content="{Binding PauseButtonText}" Style="{StaticResource SecondaryButton}"
+                                                Click="Pause_Click" />
+                                        <Button Content="立即导入文件夹" Style="{StaticResource PrimaryButton}"
+                                                Margin="10,0,0,0" Click="ImportFolder_Click" Background="White"
+                                                Foreground="#245BD0" />
+                                        <Button Content="打开照片库" Style="{StaticResource SecondaryButton}"
+                                                Margin="10,0,0,0" Click="OpenLibrary_Click" />
+                                    </StackPanel>
+                                </StackPanel>
+                                <Image Grid.Column="1" Source="Assets/fotonizer.ico" Width="112" Height="112"
+                                       Opacity="0.92" VerticalAlignment="Center" Margin="20,0,10,0" />
+                            </Grid>
+                        </Border>
+
+                        <UniformGrid Columns="4" Margin="0,0,0,4">
+                            <Border Style="{StaticResource StatCard}">
+                                <StackPanel>
+                                    <TextBlock Text="{Binding StatsTotal}" FontSize="26" FontWeight="SemiBold" />
+                                    <TextBlock Text="照片库文件" Style="{StaticResource Hint}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Style="{StaticResource StatCard}">
+                                <StackPanel>
+                                    <TextBlock Text="{Binding StatsPending}" FontSize="26" FontWeight="SemiBold"
+                                               Foreground="#B45309" />
+                                    <TextBlock Text="等待上传" Style="{StaticResource Hint}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Style="{StaticResource StatCard}">
+                                <StackPanel>
+                                    <TextBlock Text="{Binding StatsUploaded}" FontSize="26" FontWeight="SemiBold"
+                                               Foreground="{StaticResource SuccessBrush}" />
+                                    <TextBlock Text="已上传 Google" Style="{StaticResource Hint}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Style="{StaticResource StatCard}" Margin="0,0,0,16">
+                                <StackPanel>
+                                    <TextBlock Text="{Binding StatsSize}" FontSize="26" FontWeight="SemiBold" />
+                                    <TextBlock Text="照片库占用" Style="{StaticResource Hint}" />
+                                </StackPanel>
+                            </Border>
+                        </UniformGrid>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="2*" />
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Margin="0,0,16,0">
+                                <Border Style="{StaticResource Card}">
+                                    <StackPanel>
+                                        <TextBlock Text="照片库" Style="{StaticResource SectionTitle}" />
+                                        <TextBlock Text="{Binding DestinationRoot}" TextWrapping="Wrap"
+                                                   FontFamily="Consolas, Segoe UI" FontSize="12.5" />
+                                        <TextBlock Text="{Binding LastImportText}"
+                                                   Style="{StaticResource Hint}" />
+                                        <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
+                                            <Button Content="打开文件夹" Style="{StaticResource SecondaryButton}"
+                                                    Click="OpenLibrary_Click" />
+                                            <Button Content="修改位置" Style="{StaticResource LinkButton}"
+                                                    Margin="14,0,0,0" Click="GoLibrarySettings_Click" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Border>
+
+                                <Border Style="{StaticResource Card}">
+                                    <StackPanel>
+                                        <TextBlock Text="Google 照片" Style="{StaticResource SectionTitle}" />
+                                        <StackPanel Orientation="Horizontal">
+                                            <Ellipse Width="9" Height="9" Margin="0,0,8,0" VerticalAlignment="Center">
+                                                <Ellipse.Style>
+                                                    <Style TargetType="Ellipse">
+                                                        <Setter Property="Fill" Value="#C4C9D4" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding GoogleConnected}" Value="True">
+                                                                <Setter Property="Fill" Value="{StaticResource SuccessBrush}" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Ellipse.Style>
+                                            </Ellipse>
+                                            <TextBlock Text="{Binding GoogleStatusText}" FontWeight="SemiBold" />
+                                        </StackPanel>
+                                        <TextBlock Text="{Binding GoogleStatusDetail}" Style="{StaticResource Hint}" />
+                                        <Button Content="管理上传设置" Style="{StaticResource LinkButton}"
+                                                Margin="0,12,0,0" HorizontalAlignment="Left"
+                                                Click="GoUploadSettings_Click" />
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+
+                            <Border Grid.Column="1" Style="{StaticResource Card}" Margin="0,0,0,16">
+                                <DockPanel>
+                                    <TextBlock DockPanel.Dock="Top" Text="最近活动"
+                                               Style="{StaticResource SectionTitle}" />
+                                    <ListBox ItemsSource="{Binding Activity}" Height="330"
+                                             ScrollViewer.VerticalScrollBarVisibility="Auto">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Margin="0,0,0,7">
+                                                    <TextBlock Text="{Binding Message}" TextWrapping="Wrap"
+                                                               FontSize="12" />
+                                                    <TextBlock Text="{Binding Timestamp, StringFormat={}{0:HH:mm:ss}}"
+                                                               Foreground="#9AA3B2" FontSize="10.5" />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+                                </DockPanel>
+                            </Border>
+                        </Grid>
+                    </StackPanel>
+
+                    <!-- ================= sources ================= -->
+                    <StackPanel x:Name="SourcesPanel" Visibility="Collapsed">
+                        <TextBlock Text="导入来源" Style="{StaticResource PageTitle}" />
+                        <TextBlock Style="{StaticResource PageSubtitle}"
+                                   Text="Fotonizer 常驻后台监听设备。插入 U 盘、存储卡或连接相机/手机后会自动开始导入。" />
+
+                        <Border Style="{StaticResource Card}">
+                            <StackPanel>
+                                <TextBlock Text="自动检测" Style="{StaticResource SectionTitle}" />
+                                <CheckBox Content="U 盘 / SD 卡等可移动磁盘"
+                                          IsChecked="{Binding Settings.WatchRemovableDrives}" />
+                                <CheckBox Content="相机、手机（MTP / PTP，需要设备解锁）"
+                                          IsChecked="{Binding Settings.WatchPortableDevices}" />
+                                <CheckBox Content="外接固定硬盘（不含系统盘）"
+                                          IsChecked="{Binding Settings.WatchFixedDrives}" />
+                                <CheckBox Content="检测到设备后自动导入"
+                                          IsChecked="{Binding Settings.AutoImport}" />
+                                <CheckBox Content="启动时扫描已连接的设备"
+                                          IsChecked="{Binding Settings.ScanConnectedDevicesOnStartup}" />
+                                <TextBlock Style="{StaticResource Hint}"
+                                           Text="提示：Windows 首次连接相机时可能需要几秒钟安装驱动；手机需要在屏幕上允许访问照片。" />
+                            </StackPanel>
+                        </Border>
+
+                        <Border Style="{StaticResource Card}">
+                            <StackPanel>
+                                <TextBlock Text="附加文件夹" Style="{StaticResource SectionTitle}" />
+                                <TextBlock Style="{StaticResource Hint}" Margin="0,0,0,10"
+                                           Text="除了设备，还可以监控电脑上的固定文件夹（例如下载目录、网络共享）。" />
+                                <ListBox x:Name="FolderList" ItemsSource="{Binding ExtraFolders}" Height="120"
+                                         BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" />
+                                <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                                    <Button Content="添加文件夹…" Style="{StaticResource SecondaryButton}"
+                                            Click="AddFolder_Click" />
+                                    <Button Content="移除选中" Style="{StaticResource SecondaryButton}"
+                                            Margin="8,0,0,0" Click="RemoveFolder_Click" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,14,0,0">
+                                    <TextBlock Text="定期重新扫描（分钟，0 = 不扫描）" VerticalAlignment="Center"
+                                               Margin="0,0,10,0" />
+                                    <TextBox Width="80" Text="{Binding Settings.RescanExtraFoldersMinutes, UpdateSourceTrigger=PropertyChanged}" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Style="{StaticResource Card}">
+                            <StackPanel>
+                                <TextBlock Text="扫描范围" Style="{StaticResource SectionTitle}" />
+                                <CheckBox Content="包含子文件夹" IsChecked="{Binding Settings.IncludeSubfolders}" />
+                                <CheckBox Content="同时导入视频（MP4 / MOV 等）" IsChecked="{Binding Settings.CopyVideos}" />
+                                <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
+                                    <TextBlock Text="最大扫描深度" VerticalAlignment="Center" Margin="0,0,10,0" />
+                                    <TextBox Width="70" Text="{Binding Settings.MaxScanDepth, UpdateSourceTrigger=PropertyChanged}" />
+                                    <TextBlock Text="设备轮询间隔（秒）" VerticalAlignment="Center" Margin="26,0,10,0" />
+                                    <TextBox Width="70" Text="{Binding Settings.PollSeconds, UpdateSourceTrigger=PropertyChanged}" />
+                                </StackPanel>
+                                <TextBlock Style="{StaticResource Hint}"
+                                           Text="默认会跳过隐藏目录、系统目录、回收站和照片库自身，避免重复导入。" />
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+
+                    <!-- ================= library ================= -->
+                    <StackPanel x:Name="LibraryPanel" Visibility="Collapsed">
+                        <TextBlock Text="整理与命名" Style="{StaticResource PageTitle}" />
+                        <TextBlock Style="{StaticResource PageSubtitle}"
+                                   Text="照片会按拍摄时间自动命名和归档。模板支持日期、相机型号、原文件名和序号。" />
+
+                        <Border Style="{StaticResource Card}">
+                            <StackPanel>
+                                <TextBlock Text="照片库位置" Style="{StaticResource SectionTitle}" />
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox Text="{Binding Settings.DestinationRoot, UpdateSourceTrigger=LostFocus}" />
+                                    <Button Grid.Column="1" Content="浏览…" Style="{StaticResource SecondaryButton}"
+                                            Margin="8,0,0,0" Click="BrowseDestination_Click" />
+                                </Grid>
+                                <TextBlock Style="{StaticResource Hint}"
+                                           Text="建议使用独立磁盘或 OneDrive 之外的本地目录；Google 照片上传是额外备份。" />
+                            </StackPanel>
+                        </Border>
+
+                        <Border Style="{StaticResource Card}">
+                            <StackPanel>
+                                <TextBlock Text="设备目录" Style="{StaticResource SectionTitle}" />
+                                <CheckBox Content="按相机/设备建立独立根目录"
+                                          IsChecked="{Binding Settings.OrganizeByDevice}" />
+                                <TextBlock Style="{StaticResource Hint}"
+                                           Text="勾选后，新导入的照片会放在以“厂商 + 型号”命名的目录下，例如 Sony ILCE-7M3\2026\10\...、Nikon Z 6\2026\10\...。没有 EXIF 相机信息的照片或视频会进入“未识别相机”。只影响之后导入的照片。" />
+                            </StackPanel>
+                        </Border>
+
+                        <Border Style="{StaticResource Card}">
+                            <StackPanel>
+                                <TextBlock Text="文件命名模板" Style="{StaticResource SectionTitle}" />
+                                <TextBox Text="{Binding Settings.FileNameTemplate, UpdateSourceTrigger=PropertyChanged}"
+                                         FontFamily="Consolas, Segoe UI" />
+                                <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
+                                    <Button Content="按日期时间" Style="{StaticResource SecondaryButton}"
+                                            Click="PresetDate_Click" />
+                                    <Button Content="日期 + 相机" Style="{StaticResource SecondaryButton}"
+                                            Margin="8,0,0,0" Click="PresetDateCamera_Click" />
+                                    <Button Content="保留原文件名" Style="{StaticResource SecondaryButton}"
+                                            Margin="8,0,0,0" Click="PresetOriginal_Click" />
+                                </StackPanel>
+                                <TextBlock Style="{StaticResource Hint}"
+                                           Text="{Binding Settings.TemplateExample}" />
+                                <TextBlock Style="{StaticResource Hint}" Margin="0,8,0,0"
+                                           Text="可用标记：{yyyy} {MM} {dd} {HH} {mm} {ss} {fff} {date:格式} {time:格式} {camera} {original} {counter:000} {ext}" />
+                            </StackPanel>
+                        </Border>
+
+                        <Border Style="{StaticResource Card}">
+                            <StackPanel>
+                                <TextBlock Text="子文件夹模板" Style="{StaticResource SectionTitle}" />
+                                <TextBox Text="{Binding Settings.SubfolderTemplate, UpdateSourceTrigger=PropertyChanged}"
+                                         FontFamily="Consolas, Segoe UI" />
+                                <TextBlock Style="{StaticResource Hint}"
+                                           Text="{Binding Settings.FolderExample}" />
+                                <TextBlock Style="{StaticResource Hint}"
+                                           Text="例如：{yyyy}\{MM} 或 {yyyy}\{MM}\{dd}；留空表示全部放在照片库根目录。" />
+                            </StackPanel>
+                        </Border>
+
+                        <Border Style="{StaticResource Card}">
+                            <StackPanel>
+                                <TextBlock Text="来源处理" Style="{StaticResource SectionTitle}" />
+                                <CheckBox Content="导入成功后删除来源文件（危险，默认关闭）"
+                                          IsChecked="{Binding Settings.DeleteSourceAfterCopy}" />
+                                <TextBlock Style="{StaticResource Hint}"
+                                           Text="仅对磁盘/文件夹生效，不会删除相机或手机里的文件。建议先确认照片已正确导入再开启。" />
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+
+                    <!-- ================= enhance ================= -->
+                    <StackPanel x:Name="EnhancePanel" Visibility="Collapsed">
+                        <TextBlock Text="自动增强" Style="{StaticResource PageTitle}" />
+                        <TextBlock Style="{StaticResource PageSubtitle}"
+                                   Text="本地自动调整曝光、白平衡、对比度和锐度，风格接近手机相册的“自动增强”。" />
+
+                        <Border Style="{StaticResource Card}">
+                            <StackPanel>
+                                <TextBlock Text="增强强度" Style="{StaticResource SectionTitle}" />
+                                <ComboBox SelectedIndex="{Binding Settings.EnhanceModeIndex, Mode=TwoWay}" Width="300"
+                                          HorizontalAlignment="Left">
+                                    <ComboBoxItem Content="关闭（只复制原图）" />
+                                    <ComboBoxItem Content="轻微增强（推荐）" />
+                                    <ComboBoxItem Content="较强增强" />
+                                </ComboBox>
+                                <TextBlock Style="{StaticResource Hint}"
+                                           Text="轻微增强会保留原有氛围；较强增强会拉回暗部、提升饱和度与清晰度。" />
+                            </StackPanel>
+                        </Border>
+
+                        <Border Style="{StaticResource Card}">
+                            <StackPanel>
+                                <TextBlock Text="JPEG 质量" Style="{StaticResource SectionTitle}" />
+                                <StackPanel Orientation="Horizontal">
+                                    <Slider x:Name="QualitySlider" Width="320" Minimum="70" Maximum="100"
+                                            TickFrequency="1" IsSnapToTickEnabled="True"
+                                            Value="{Binding Settings.JpegQuality}" />
+                                    <TextBlock Text="{Binding ElementName=QualitySlider, Path=Value, StringFormat={}{0:F0}}"
+                                               VerticalAlignment="Center" Margin="12,0,0,0" FontWeight="SemiBold" />
+                                </StackPanel>
+                                <TextBlock Style="{StaticResource Hint}"
+                                           Text="增强后的照片会重新编码为 JPEG。原图不会被覆盖，除非你手动删除。" />
+                            </StackPanel>
+                        </Border>
+
+                        <Border Style="{StaticResource Card}" Background="#FFF9EC" BorderBrush="#F3DFB6">
+                            <StackPanel>
+                                <TextBlock Text="关于 Windows 照片的自动增强" FontWeight="SemiBold" Margin="0,0,0,6" />
+                                <TextBlock TextWrapping="Wrap" FontSize="12.5" Foreground="#6B5322"
+                                           Text="Windows“照片”应用的自动增强没有公开的命令行或自动化接口，无法可靠地批量调用。Fotonizer 因此内置了自己的增强算法，完全在本机运行；如果你有 Lightroom、DxO 等支持命令行的工具，也可以在后续版本中接入外部命令。" />
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+
+                    <!-- ================= burst ================= -->
+                    <StackPanel x:Name="BurstPanel" Visibility="Collapsed">
+                        <TextBlock Text="连拍优选" Style="{StaticResource PageTitle}" />
+                        <TextBlock Style="{StaticResource PageSubtitle}"
+                                   Text="同一秒内连拍多张时，自动比较清晰度、曝光和人脸，只保留最好的一张。" />
+
+                        <Border Style="{StaticResource Card}">
+                            <StackPanel>
+                                <CheckBox Content="启用连拍自动优选" IsChecked="{Binding Settings.BurstSelection}" />
+                                <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+                                    <TextBlock Text="连拍时间窗口（秒）" VerticalAlignment="Center" Width="150" />
+                                    <Slider Width="260" Minimum="0.5" Maximum="5" TickFrequency="0.1"
+                                            IsSnapToTickEnabled="True" Value="{Binding Settings.BurstWindowSeconds}" />
+                                    <TextBlock Text="{Binding Settings.BurstWindowSeconds, StringFormat={}{0:F1}s}"
+                                               VerticalAlignment="Center" Margin="10,0,0,0" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
+                                    <TextBlock Text="最少连拍张数" VerticalAlignment="Center" Width="150" />
+                                    <TextBox Width="70" Text="{Binding Settings.BurstMinCount, UpdateSourceTrigger=PropertyChanged}" />
+                                </StackPanel>
+                                <TextBlock Style="{StaticResource Hint}"
+                                           Text="只有达到最少张数的连续照片才会触发优选；普通单张照片不受影响。" />
+                            </StackPanel>
+                        </Border>
+
+                        <Border Style="{StaticResource Card}">
+                            <StackPanel>
+                                <TextBlock Text="落选照片" Style="{StaticResource SectionTitle}" />
+                                <ComboBox SelectedIndex="{Binding Settings.BurstKeepIndex, Mode=TwoWay}" Width="300"
+                                          HorizontalAlignment="Left">
+                                    <ComboBoxItem Content="直接跳过（推荐，节省空间）" />
+                                    <ComboBoxItem Content="保留到 _Burst 子文件夹" />
+                                </ComboBox>
+                                <TextBlock Style="{StaticResource Hint}"
+                                           Text="落选照片不会被上传到 Google 照片。保留副本会占用额外空间。" />
+                            </StackPanel>
+                        </Border>
+
+                        <Border Style="{StaticResource Card}" Background="#F2F7FF" BorderBrush="#D6E4FF">
+                            <StackPanel>
+                                <TextBlock Text="评分方式" FontWeight="SemiBold" Margin="0,0,0,6" />
+                                <TextBlock TextWrapping="Wrap" FontSize="12.5" Foreground="#294B87"
+                                           Text="50% 清晰度（拉普拉斯方差）+ 20% 曝光质量 + 30% 人脸（人脸数量、大小和脸部清晰度）。评分与选择结果会写入日志。" />
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+
+                    <!-- ================= upload ================= -->
+                    <StackPanel x:Name="UploadPanel" Visibility="Collapsed">
+                        <TextBlock Text="Google 照片" Style="{StaticResource PageTitle}" />
+                        <TextBlock Style="{StaticResource PageSubtitle}"
+                                   Text="照片整理完成后自动上传到 Google 照片（原画质），并按月份创建相册。" />
+
+                        <Border Style="{StaticResource Card}">
+                            <StackPanel>
+                                <CheckBox Content="启用自动上传" IsChecked="{Binding Settings.UploadEnabled}" />
+                                <CheckBox Content="同时上传视频" IsChecked="{Binding Settings.UploadVideos}" />
+                                <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
+                                    <TextBlock Text="失败重试次数" VerticalAlignment="Center" Margin="0,0,10,0" />
+                                    <TextBox Width="70" Text="{Binding Settings.UploadRetryLimit, UpdateSourceTrigger=PropertyChanged}" />
+                                    <TextBlock Text="相册名模板" VerticalAlignment="Center" Margin="26,0,10,0" />
+                                    <TextBox Width="150" Text="{Binding Settings.AlbumTemplate, UpdateSourceTrigger=PropertyChanged}" />
+                                </StackPanel>
+                                <TextBlock Style="{StaticResource Hint}"
+                                           Text="相册模板留空表示只上传到时间线；例如 {yyyy}-{MM} 会创建“2024-05”这样的相册。" />
+                            </StackPanel>
+                        </Border>
+
+                        <Border Style="{StaticResource Card}">
+                            <StackPanel>
+                                <TextBlock Text="连接状态" Style="{StaticResource SectionTitle}" />
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                    <Ellipse Width="10" Height="10" Margin="0,0,8,0" VerticalAlignment="Center">
+                                        <Ellipse.Style>
+                                            <Style TargetType="Ellipse">
+                                                <Setter Property="Fill" Value="#C4C9D4" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding GoogleConnected}" Value="True">
+                                                        <Setter Property="Fill" Value="{StaticResource SuccessBrush}" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Ellipse.Style>
+                                    </Ellipse>
+                                    <TextBlock Text="{Binding GoogleStatusText}" FontWeight="SemiBold" />
+                                </StackPanel>
+                                <TextBlock Text="{Binding GoogleStatusDetail}" Style="{StaticResource Hint}" Margin="0,0,0,14" />
+
+                                <TextBlock Text="OAuth 客户端 ID" Style="{StaticResource Label}" />
+                                <TextBox Text="{Binding Settings.GoogleClientId, UpdateSourceTrigger=LostFocus}" />
+                                <TextBlock Text="OAuth 客户端密钥" Style="{StaticResource Label}" Margin="0,14,0,6" />
+                                <PasswordBox x:Name="GoogleSecretBox" PasswordChanged="GoogleSecretBox_PasswordChanged" />
+
+                                <StackPanel Orientation="Horizontal" Margin="0,16,0,0">
+                                    <Button x:Name="ConnectGoogleButton" Content="连接 Google 照片"
+                                            Style="{StaticResource PrimaryButton}" Click="ConnectGoogle_Click" />
+                                    <Button Content="断开连接" Style="{StaticResource SecondaryButton}"
+                                            Margin="8,0,0,0" Click="DisconnectGoogle_Click" />
+                                    <Button Content="重试失败的上传" Style="{StaticResource SecondaryButton}"
+                                            Margin="8,0,0,0" Click="RetryUploads_Click" />
+                                    <Button Content="如何获取这些信息？" Style="{StaticResource LinkButton}"
+                                            Margin="16,0,0,0" Click="GoogleGuide_Click" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Style="{StaticResource Card}" Background="#F4FBF6" BorderBrush="#CDEBD8">
+                            <StackPanel>
+                                <TextBlock Text="隐私说明" FontWeight="SemiBold" Margin="0,0,0,6" />
+                                <TextBlock TextWrapping="Wrap" FontSize="12.5" Foreground="#1F5B36"
+                                           Text="Fotonizer 只申请 photoslibrary.appendonly 权限：只能上传和查看本程序创建的内容，不能读取你已有的 Google 照片。授权令牌使用 Windows DPAPI 加密保存在本机。" />
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+
+                    <!-- ================= general ================= -->
+                    <StackPanel x:Name="GeneralPanel" Visibility="Collapsed">
+                        <TextBlock Text="常规设置" Style="{StaticResource PageTitle}" />
+                        <TextBlock Style="{StaticResource PageSubtitle}"
+                                   Text="启动方式、托盘行为和本地数据位置。" />
+
+                        <Border Style="{StaticResource Card}">
+                            <StackPanel>
+                                <TextBlock Text="界面语言" Style="{StaticResource SectionTitle}" />
+                                <ComboBox Width="220" HorizontalAlignment="Left"
+                                          SelectedValue="{Binding Settings.Language}"
+                                          SelectedValuePath="Tag">
+                                    <ComboBoxItem Content="中文" Tag="zh-CN" />
+                                    <ComboBoxItem Content="English" Tag="en-US" />
+                                </ComboBox>
+                                <TextBlock Style="{StaticResource Hint}"
+                                           Text="切换后立即生效，设置会自动保存。" />
+                            </StackPanel>
+                        </Border>
+
+                        <Border Style="{StaticResource Card}">
+                            <StackPanel>
+                                <TextBlock Text="启动与托盘" Style="{StaticResource SectionTitle}" />
+                                <CheckBox Content="开机时自动启动（最小化到托盘）"
+                                          IsChecked="{Binding Settings.StartWithWindows}" />
+                                <CheckBox Content="关闭窗口时最小化到托盘，而不是退出"
+                                          IsChecked="{Binding Settings.MinimizeToTray}" />
+                                <CheckBox Content="显示设备连接与导入完成的通知"
+                                          IsChecked="{Binding Settings.ShowNotifications}" />
+                                <TextBlock Style="{StaticResource Hint}"
+                                           Text="退出程序请使用托盘菜单中的“退出”，或在此关闭“最小化到托盘”后关闭窗口。" />
+                            </StackPanel>
+                        </Border>
+
+                        <Border Style="{StaticResource Card}">
+                            <StackPanel>
+                                <TextBlock Text="电源管理" Style="{StaticResource SectionTitle}" />
+                                <CheckBox Content="阻止系统进入休眠（保持导入/上传不中断）"
+                                          IsChecked="{Binding Settings.PreventSystemSleep}" />
+                                <TextBlock Style="{StaticResource Hint}"
+                                           Text="勾选后，只要 Fotonizer 正在运行，Windows 就不会因空闲进入睡眠；屏幕仍会按电源计划关闭。使用笔记本电池时会增加一些耗电，退出程序后立即恢复正常休眠策略。" />
+                            </StackPanel>
+                        </Border>
+
+                        <Border Style="{StaticResource Card}">
+                            <StackPanel>
+                                <TextBlock Text="本地数据" Style="{StaticResource SectionTitle}" />
+                                <TextBlock Text="{Binding DataFolder}" FontFamily="Consolas, Segoe UI" FontSize="12"
+                                           TextWrapping="Wrap" />
+                                <TextBlock Style="{StaticResource Hint}"
+                                           Text="设置、照片索引数据库和日志都保存在这里；照片本身在照片库目录中。" />
+                                <StackPanel Orientation="Horizontal" Margin="0,14,0,0">
+                                    <Button Content="打开数据目录" Style="{StaticResource SecondaryButton}"
+                                            Click="OpenData_Click" />
+                                    <Button Content="打开日志" Style="{StaticResource SecondaryButton}"
+                                            Margin="8,0,0,0" Click="OpenLogFile_Click" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Style="{StaticResource Card}">
+                            <StackPanel>
+                                <TextBlock Text="关于 Fotonizer" Style="{StaticResource SectionTitle}" />
+                                <TextBlock Text="{Binding VersionText}" FontWeight="SemiBold" />
+                                <TextBlock Style="{StaticResource Hint}" Margin="0,6,0,0"
+                                           Text="一个本地优先的自动照片整理工具：设备监听、去重、连拍优选、自动增强和 Google 照片备份。所有照片处理都在你的电脑上完成。" />
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+
+                    <!-- ================= activity ================= -->
+                    <StackPanel x:Name="ActivityPanel" Visibility="Collapsed">
+                        <TextBlock Text="运行日志" Style="{StaticResource PageTitle}" />
+                        <TextBlock Style="{StaticResource PageSubtitle}"
+                                   Text="最近的设备检测、导入、连拍评分和上传记录。" />
+
+                        <Border Style="{StaticResource Card}" Padding="0">
+                            <DockPanel>
+                                <Border DockPanel.Dock="Top" Padding="18,14" BorderBrush="{StaticResource BorderBrush}"
+                                        BorderThickness="0,0,0,1">
+                                    <DockPanel>
+                                        <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
+                                            <Button Content="打开日志文件" Style="{StaticResource SecondaryButton}"
+                                                    Click="OpenLogFile_Click" />
+                                            <Button Content="清空列表" Style="{StaticResource SecondaryButton}"
+                                                    Margin="8,0,0,0" Click="ClearLog_Click" />
+                                        </StackPanel>
+                                        <TextBlock Text="最近 400 条记录" Foreground="{StaticResource MutedBrush}"
+                                                   VerticalAlignment="Center" />
+                                    </DockPanel>
+                                </Border>
+                                <ListView x:Name="LogList" ItemsSource="{Binding Activity}" Height="520"
+                                          ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                                    <ListView.View>
+                                        <GridView>
+                                            <GridViewColumn Header="时间" Width="82">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding Timestamp, StringFormat={}{0:HH:mm:ss}}"
+                                                                   Foreground="#6B7280" />
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                            <GridViewColumn Header="级别" Width="60">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding Level, Converter={StaticResource LogLevelText}}"
+                                                                   Foreground="{Binding Level, Converter={StaticResource LogBrush}}" />
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                            <GridViewColumn Header="内容" Width="600">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding Message, Converter={StaticResource LogMessage}}" TextWrapping="Wrap"
+                                                                   Foreground="{Binding Level, Converter={StaticResource LogBrush}}" />
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
+                            </DockPanel>
+                        </Border>
+                    </StackPanel>
+                </Grid>
+            </ScrollViewer>
+
+            <!-- ================= footer ================= -->
+            <Border Grid.Row="1" Background="#FBFCFE" BorderBrush="{StaticResource BorderBrush}"
+                    BorderThickness="0,1,0,0" Padding="32,11">
+                <DockPanel>
+                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Left" VerticalAlignment="Center">
+                        <Ellipse Width="8" Height="8" Fill="{StaticResource SuccessBrush}" Margin="0,0,8,0" />
+                        <TextBlock Text="设置会自动保存" FontSize="12" Foreground="{StaticResource MutedBrush}" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button Content="打开照片库" Style="{StaticResource SecondaryButton}"
+                                Click="OpenLibrary_Click" Margin="0,0,8,0" />
+                        <Button Content="立即导入文件夹" Style="{StaticResource PrimaryButton}"
+                                Click="ImportFolder_Click" />
+                    </StackPanel>
+                </DockPanel>
+            </Border>
+        </Grid>
+    </Grid>
+</Window>

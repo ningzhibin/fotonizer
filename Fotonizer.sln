@@ -1,0 +1,50 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{BE2AC200-D3B8-434B-81FE-C271BBED0393}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fotonizer.Core", "src\Fotonizer.Core\Fotonizer.Core.csproj", "{D60D6F04-64FD-4573-996D-212AD1768F5D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fotonizer.App", "src\Fotonizer.App\Fotonizer.App.csproj", "{FD2AD914-DA82-45EF-ACBE-12484489E01C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fotonizer.Cli", "src\Fotonizer.Cli\Fotonizer.Cli.csproj", "{DE32D009-F354-4651-8084-C5716FF3C30C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{19E33775-520B-4D96-B45B-480D45C16466}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fotonizer.Tests", "tests\Fotonizer.Tests\Fotonizer.Tests.csproj", "{0A5F4450-A125-4ACC-B7A6-28F882BFB4DB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D60D6F04-64FD-4573-996D-212AD1768F5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D60D6F04-64FD-4573-996D-212AD1768F5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D60D6F04-64FD-4573-996D-212AD1768F5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D60D6F04-64FD-4573-996D-212AD1768F5D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD2AD914-DA82-45EF-ACBE-12484489E01C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD2AD914-DA82-45EF-ACBE-12484489E01C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD2AD914-DA82-45EF-ACBE-12484489E01C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD2AD914-DA82-45EF-ACBE-12484489E01C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE32D009-F354-4651-8084-C5716FF3C30C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE32D009-F354-4651-8084-C5716FF3C30C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE32D009-F354-4651-8084-C5716FF3C30C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE32D009-F354-4651-8084-C5716FF3C30C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A5F4450-A125-4ACC-B7A6-28F882BFB4DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A5F4450-A125-4ACC-B7A6-28F882BFB4DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A5F4450-A125-4ACC-B7A6-28F882BFB4DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A5F4450-A125-4ACC-B7A6-28F882BFB4DB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D60D6F04-64FD-4573-996D-212AD1768F5D} = {BE2AC200-D3B8-434B-81FE-C271BBED0393}
+		{FD2AD914-DA82-45EF-ACBE-12484489E01C} = {BE2AC200-D3B8-434B-81FE-C271BBED0393}
+		{DE32D009-F354-4651-8084-C5716FF3C30C} = {BE2AC200-D3B8-434B-81FE-C271BBED0393}
+		{0A5F4450-A125-4ACC-B7A6-28F882BFB4DB} = {19E33775-520B-4D96-B45B-480D45C16466}
+	EndGlobalSection
+EndGlobal
